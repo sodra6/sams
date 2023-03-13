@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.mo.samb.mapper.system.SystemCodeGetMapper">
+	<!-- 공통코드 목록 조회 -->
+	<select id="getCodeList" parameterType="moMap" resultType="moMap">
+		/* 공통코드 목록 조회 : SystemCodeGetMapper.getCodeList */
+		SELECT
+			A.CD_GRP,
+			A.CD_GRP_NM,
+			A.USE_YN,
+			A.INDC_ORDR,
+			A.REGT_ID,
+			A.REGT_DT,
+			A.UPDT_ID,
+			A.UPDT_DT
+		FROM CM_CD_GRP A
+		<where>
+			<if test="cdGrp != null and cdGrp != ''.toString()">
+				AND CD_GRP = #{cdGrp}
+			</if> 
+			<if test="cdGrps != null">
+				<foreach collection="cdGrps" item="cdGrp" open="and cd_grp in (" close=")" separator=",">
+					#{cdGrp}
+				</foreach>
+			</if>
+			<if test="useYn != null and useYn != ''">
+				AND USE_YN = #{useYn}
+			</if>
+		</where>
+		ORDER BY INDC_ORDR
+	</select>
+	
+	<!-- 공통코드 상세 조회 -->
+	<select id="getDetailCode" parameterType="MoMap" resultType="MoMap">
+		/* 공통코드 상세 조회 : SystemCodeGetMapper.getDetailCode */
+		SELECT 
+			T1.CD_GRP
+			,T1.CD_GRP_NM
+			,T2.CD_KEY
+			,T2.CD_GRP
+			,T2.CD_NM
+			,T2.USE_YN
+			,T2.INDC_ORDR
+			,T2.RESVE_WD_1
+			,T2.RESVE_WD_2
+			,T2.RESVE_WD_3
+			,T2.REGT_ID
+			,T2.REGT_DT
+			,T2.UPDT_ID
+			,T2.UPDT_DT
+			,T2.CD_KEY AS ORI_CD_KEY
+		FROM CM_CD_GRP T1
+			JOIN CM_CD_DTL T2 ON T1.CD_GRP = T2.CD_GRP
+		<where>
+			<if test="cdGrp!=null and cdGrp!=''">
+				AND T1.CD_GRP = #{cdGrp}
+			</if>
+			<if test="cdKey!=null and cdKey!=''">
+				AND T2.CD_KEY = #{cdKey}
+			</if>
+			<if test="resveWd1 !=null and resveWd1 !=''">
+				AND POSITION(#{resveWd1} IN T2.RESVE_WD_1) &gt; 0 
+			</if>
+			<if test="resveWd2 !=null and resveWd2 !=''">
+				AND POSITION(#{resveWd2} IN T2.RESVE_WD_2) &gt; 0
+			</if>
+			<if test="resveWd3 !=null and resveWd3 !=''">
+				AND POSITION(#{resveWd3} IN T2.RESVE_WD_3) &gt; 0
+			</if>
+			<if test="cdGrps != null">
+				<foreach collection="cdGrps" item="cdGrp" open="and t1.cd_grp in (" close=")" separator=",">
+					#{cdGrp}
+				</foreach>
+			</if>
+			<if test="cdKeys != null">
+				<foreach collection="cdKeys" item="cdKey" open="and t2.cd_key in (" close=")" separator=",">
+					#{cdKey}
+				</foreach>
+			</if>
+		</where>
+		ORDER BY T1.CD_GRP, T2.INDC_ORDR, T2.CD_KEY
+	</select>
+</mapper >

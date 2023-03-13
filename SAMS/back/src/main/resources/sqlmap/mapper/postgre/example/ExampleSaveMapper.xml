@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.mo.samb.mapper.example.ExampleSaveMapper">
+	<!-- CRUD 샘플 -->
+	<insert id="insertExample" parameterType="moMap">
+		/* CRUD 샘플 insert : ExampleGetMapper.insertExample */
+	</insert>
+	
+	<!-- CRUD 샘플 -->
+	<update id="updateExample" parameterType="moMap">
+		/* CRUD 샘플 update : ExampleGetMapper.updateExample */
+	</update>
+	
+	<!-- CRUD 샘플 -->
+	<delete id="deleteExample" parameterType="moMap">
+		/* CRUD 샘플 delete : ExampleGetMapper.deleteExample */
+	</delete>
+</mapper >

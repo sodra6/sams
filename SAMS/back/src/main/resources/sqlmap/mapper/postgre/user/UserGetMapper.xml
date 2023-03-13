@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.mo.samb.mapper.user.UserGetMapper">
+	<!-- refresh token 조회 -->
+	<select id="getRefreshToken" parameterType="string" resultType="string">
+		/* jwt refresh token 조회 : UserGetMapper.getRefreshToken */
+		SELECT
+			REFRESH_TKN_VAL
+		FROM REFRESH_TKN
+		WHERE USR_ID = #{usrId}
+	</select>
+	
+	
+	<!-- ID로 pw, salt key 조회 -->
+	<select id="getSecurity" parameterType="string" resultType="moMap">
+		/* salt key 조회 : UserGetMapper.getSecurity */
+		SELECT 
+			SALT_KEY,
+			USR_PWD
+		FROM USR_INFO
+		WHERE USR_ID = #{usrId}
+	</select>
+	
+	<!-- ID로 회원 정보 조회 -->
+	<select id="getUsrById" parameterType="string" resultType="moMap">
+		/* ID, 지자체코드로 회원 정보 조회 : UserGetMapper.getUsrById */
+		SELECT
+			USR_ID,
+			USR_NM,
+			MNG_FCLTY_CD
+		FROM USR_INFO 
+		WHERE USR_ID = #{usrId}
+	</select>
+	
+	<!-- ID, PWD로 회원 정보 조회 -->
+	<select id="getUsrByIdAndPw" parameterType="moMap" resultType="moMap">
+		/* ID, PWD, 지자체코드로 회원 정보 조회 : UserGetMapper.getUsrByIdAndPw */
+		SELECT
+			USR_ID,
+			USR_PWD,
+			MNG_FCLTY_CD,
+			T2.AUTH_CD,
+			USR_NM
+		FROM USR_INFO T1
+			JOIN AUTH_INFO T2 ON T1.AUTH_CD = T2.AUTH_CD
+		WHERE T1.USR_ID = #{usrId}
+			AND T1.USR_PWD = #{usrPwd}
+	</select>
+</mapper >

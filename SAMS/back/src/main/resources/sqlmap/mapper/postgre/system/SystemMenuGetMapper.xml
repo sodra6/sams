@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.mo.samb.mapper.system.SystemMenuGetMapper">
+	
+	<!-- 메뉴 테이블 계층 쿼리 -->
+	<sql id="menuTable">
+		WITH RECURSIVE MENU_LIST(MNU_CD, TOP_KEY, UPPR_MNU_CD, MNU_NM, MNU_URL, USE_YN, INDC_YN, MNU_GRP, INDC_ORDR,DEPTH, MNU_NM_PATH, MNU_PATH, CYCLE, RNK, KEY) AS (
+			SELECT
+				T1.MNU_CD
+				, T1.MNU_CD AS TOP_KEY
+				, T1.UPPR_MNU_CD
+				, T1.MNU_NM
+				, T1.MNU_URL
+				, T1.USE_YN
+				, T1.INDC_YN
+				, T1.MNU_GRP
+				, T1.INDC_ORDR
+				, 1
+				, ARRAY[T1.MNU_NM::TEXT]
+				, ARRAY[T1.MNU_CD::TEXT]
+				, FALSE
+				, ARRAY[T1.INDC_ORDR] RNK
+				, T1.INDC_ORDR::TEXT AS KEY
+			FROM MNU_INFO_NEW T1
+			<where>
+				<if test= "useYn !=null and useYn !=''">
+					AND T1.USE_YN = #{useYn}
+				</if>
+				<if test= "indcYn !=null and indcYn !=''">
+					AND T1.INDC_YN = #{indcYn}
+				</if>
+				<if test= "mnuGrp != null and mnuGrp !=''">
+					AND T1.MNU_GRP = #{mnuGrp}
+				</if>
+				<if test= "topKey != null and topKey !=''">
+					AND T1.MNU_CD = #{topKey}
+				</if>
+				AND (UPPR_MNU_CD IS NULL OR UPPR_MNU_CD = '')
+			</where>
+			UNION ALL
+			SELECT
+				T2.MNU_CD
+				, T1.TOP_KEY
+				, T2.UPPR_MNU_CD
+				, T2.MNU_NM
+				, T2.MNU_URL
+				, T2.USE_YN
+				, T2.INDC_YN
+				, T2.MNU_GRP
+				, T2.INDC_ORDR 
+				, T1.DEPTH+1
+				, ARRAY_APPEND(T1.MNU_NM_PATH,T2.MNU_NM::TEXT)
+				, ARRAY_APPEND(T1.MNU_PATH,T2.MNU_CD::TEXT)
+				, T2.MNU_CD=ANY(MNU_PATH) AS TEST
+				, ARRAY_APPEND(T1.RNK,T2.INDC_ORDR)
+				, LPAD( T1.KEY::TEXT||T2.INDC_ORDR::TEXT , T1.DEPTH+1 , '0')
+			FROM MENU_LIST T1, MNU_INFO_NEW T2
+			<where>
+				<if test= "useYn !=null and useYn !=''">
+					AND T2.USE_YN = #{useYn}
+				</if>
+				AND T1.MNU_CD = T2.UPPR_MNU_CD 
+				AND NOT CYCLE
+			</where>
+		)
+	</sql>
+
+	<!-- 메뉴 목록 조회 -->
+	<select id="getMenuList" parameterType="moMap" resultType="moMap">
+		/* 메뉴 목록 조회 : SystemMenuGetMapper.getMenuList */
+		<include refid="menuTable"/>
+		SELECT
+			T1.MNU_CD
+			, T1.MNU_NM
+			, T1.UPPR_MNU_CD
+			, T1.TOP_KEY
+			, T1.MNU_URL
+			, T1.MNU_GRP
+			, T1.USE_YN
+			, T1.INDC_YN
+			, T1.INDC_ORDR 
+			, T1.DEPTH
+			, T1.MNU_PATH
+			, T1.RNK
+			, T1.KEY
+		FROM MENU_LIST AS T1
+		ORDER BY RNK
+	</select>
+	
+	<!-- 프로그램 목록 조회 -->
+	<select id="getPgmList" resultType="MoMap" parameterType="MoMap">
+		/* 프로그램 목록 조회 : SystemMenuGetMapper.getPgmList */
+		SELECT
+			T1.MNU_CD
+			, T2.PGM_NM
+			, T2.PGM_CD
+			, T2.PGM_URL URL
+			, T1.INDC_ORDR
+			, T2.USE_YN
+			, (ROW_NUMBER() OVER()) AS DATANUM
+		FROM MNU_PGM_INFO T1
+			JOIN PGM_INFO T2 ON T1.PGM_CD = T2.PGM_CD
+		<where>
+			<if test='mnuCd != null and mnuCd != ""'>
+				AND T1.MNU_CD = #{mnuCd}
+			</if>
+		</where>
+		ORDER BY INDC_ORDR
+	</select>
+</mapper >

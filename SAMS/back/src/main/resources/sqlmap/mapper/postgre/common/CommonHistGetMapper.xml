@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.mo.samb.mapper.common.CommonHistGetMapper">
+	<!-- 로그인 성공시 이력 추가 -->
+	<insert id="insertLoginHist" parameterType="moMap">
+		<selectKey keyProperty="histId" resultType="integer" order="BEFORE">
+			/* 시퀀스 조회 */
+			SELECT NEXTVAL('login_hist_hist_id_seq');
+		</selectKey>
+		/* 로그인 이력 추가 : histMapper.insertLoginHist */
+		INSERT INTO LOGIN_HIST (
+			HIST_ID,
+			USR_ID,
+			LOGIN_IP
+		) VALUES (
+			#{histId},
+			#{usrId},
+			#{loginIp}
+		)
+	</insert>
+	
+	<!-- 로그인 이력 변경 (로그아웃 / 세션종료) -->
+	<update id="updateLoginHist" parameterType="int">
+		/* 로그인 이력 변경 : histMapper.updateLoginHist */
+		UPDATE LOGIN_HIST 
+			SET LOGOUT_DT = NOW()
+		WHERE HIST_ID = #{value}
+	</update>
+	
+	<!-- 에러이력 추가 -->
+	<insert id="insertErrHist" parameterType="moMap">
+		/* 에러이력 추가 : histMapper.insertErrHist */
+		INSERT INTO ERR_HIST (
+			USR_ID,
+			ERR_CTNT,
+			ERR_URL,
+			ERR_DT
+		) VALUES (
+			#{usrId},
+			#{errCtnt},
+			#{errUrl},
+			now()
+		)
+	</insert>
+</mapper >

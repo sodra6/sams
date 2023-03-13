@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.mo.samb.mapper.user.UserSaveMapper">
+	<!-- jwt refresh token 저장 -->
+	<insert id="saveRefreshToken" parameterType="moMap">
+		/* jwt refresh token 저장 : kr.co.mo.samb.mapper.user.UserSaveMapper.saveRefreshToken */
+		WITH UPSERT AS(
+			UPDATE REFRESH_TKN
+			SET UPDT_DT  = NOW(),
+				UPDT_ID  = #{usrId},
+				REFRESH_TKN_VAL = #{refreshTknVal}
+			WHERE USR_ID = #{usrId}
+			RETURNING *
+		)
+		INSERT INTO REFRESH_TKN (
+			USR_ID,
+			REFRESH_TKN_VAL,
+			REGT_ID,
+			REGT_DT
+		)
+		SELECT
+			#{usrId},
+			#{refreshTknVal},
+			#{usrId},
+			NOW()
+		WHERE NOT EXISTS(SELECT * FROM UPSERT)
+	</insert>
+	
+	<!-- jwt refresh token 삭제 -->
+	<delete id="deleteRefreshToken" parameterType="string">
+		/* jwt refresh token 삭제 : kr.co.mo.samb.mapper.user.UserSaveMapper.deleteRefreshToken */
+		DELETE FROM REFRESH_TKN
+		WHERE USR_ID = #{usrId}
+	</delete>
+</mapper >
