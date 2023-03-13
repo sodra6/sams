@@ -1,0 +1,317 @@
+/* import보다 위쪽에 정의해야, 나중의 부트스트랩 css의 !default 가 적용되어 나타난다.*/
+
+$primary: rgba(98, 89, 202);
+
+@import "../../node_modules/bootstrap/scss/bootstrap.scss";
+
+/* 사용자 정의 */
+
+a {
+  text-decoration: none;
+}
+
+/* 폰트 사이즈 */
+h4 {
+  font-size: 1.125rem;
+}
+h5 {
+  font-size: 1rem !important;
+}
+.fs-7 {
+  font-size: 0.813rem;
+}
+.fs-8 {
+  font-size: 0.75rem;
+}
+
+/* 로그인폼 */
+.Auth-form-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  background: url(/images/login_bg.png) no-repeat center center;
+}
+.Auth-form-container {
+  .auth-box {
+    max-width: 400px;
+    margin: 5% 0;
+    position: relative;
+    .form_titArea {
+      width: 100%;
+      text-align: center;
+      color: rgba(39, 70, 137);
+      margin-bottom: 30px;
+    }
+    label {
+      font-size: 0.875rem;
+      text-align: left;
+      color: rgba(0, 49, 139);
+      font-weight: 600;
+    }
+    input[type="text"],
+    input[type="password"] {
+      font-size: 0.875rem;
+      height: 32px;
+      border: 1px solid rgba(225, 237, 255);
+      color: rgba(0, 0, 0);
+      font-weight: inherit;
+      background-color: rgba(225, 237, 255);
+      border-radius: 4px;
+      padding: 0 0.5rem;
+    }
+    input[type="radio"],
+    input[type="checkbox"] {
+      box-sizing: border-box;
+      padding: 0;
+      width: 14px;
+      height: 14px;
+      accent-color: rgba(0, 133, 255);
+    }
+    .form-check {
+      min-height: unset;
+      margin-bottom: 0;
+    }
+  }
+}
+.login-shadow {
+  box-shadow: 0px 0px 15px rgb(0 120 255 / 30%);
+}
+.Auth-form {
+  width: 420px;
+  box-shadow: rgb(0 0 0 / 16%) 1px 1px 10px;
+  padding-top: 30px;
+  padding-bottom: 20px;
+  border-radius: 8px;
+  background-color: white;
+}
+
+.Auth-form-content {
+  padding-left: 12%;
+  padding-right: 12%;
+}
+
+.Auth-form-title {
+  text-align: center;
+  margin-bottom: 1em;
+  font-size: 24px;
+  color: rgb(34, 34, 34);
+  font-weight: 800;
+}
+
+label {
+  font-size: 14px;
+  font-weight: 400;
+  color: rgb(34, 34, 34);
+}
+
+/* Skip Navigation */
+#skip a {
+  position: absolute;
+  top: -30px;
+  left: 0;
+  background: rgba(0, 0, 0);
+  height: 30px;
+  line-height: 30px;
+  text-decoration: none;
+  color: rgba(255, 255, 255);
+  font-size: 12px;
+  padding: 0 6px;
+  z-index: 1;
+}
+
+#skip a:focus,
+#skip a:active {
+  top: 0;
+}
+
+/* Color */
+.bg-cetacean-blue {
+  background-color: rgba(37, 35, 60);
+}
+
+/* Nav */
+.nav-full {
+  width: 100%;
+  height: 42px;
+  position: relative;
+}
+.nav-full .nav ul {
+  padding: 0;
+  margin: 0;
+}
+.nav-full .nav a {
+  color: rgba(255, 255, 255) !important;
+  font-size: 18px;
+  padding: 0.41rem 1.875rem;
+}
+.nav-full .nav a.active {
+  color: rgba(255, 255, 255) !important;
+  border-top: 1px solid #25233c;
+  border-bottom: 1px solid #25233c;
+  background: rgba(98, 89, 202);
+}
+
+/* breadcrumb */
+.breadcrumb {
+  margin-bottom: 0;
+}
+.breadcrumb .breadcrumb-item a {
+  color: rgba(98, 89, 202);
+}
+
+/* Layout */
+#main-wrapper {
+  width: 100%;
+  overflow: hidden;
+}
+#main-wrapper[data-layout="vertical"] .page-wrapper {
+  padding-top: 102px;
+  margin-left: 260px;
+}
+#main-wrapper[data-layout="vertical"][data-sidebar-visibility="hidden"] .page-wrapper {
+  padding-top: 102px;
+  margin-left: 0px;
+}
+.page-wrapper > .container-fluid {
+  padding: 15px;
+  min-height: calc(100vh - 155px);
+}
+.page-wrapper {
+  padding-top: 102px;
+  margin-left: 260px;
+  min-width: 1600px;
+  background: rgba(237, 241, 245);
+  position: relative;
+  transition: 0.2s ease-in;
+  /*box-shadow: 0px 3px 9px 0px rgb(162 176 190 / 15%);*/
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+#root {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+/* header 커스텀 */
+header.topbar {
+  position: fixed;
+  width: 100%;
+  height: inherit;
+  background: rgba(249, 251, 253);
+  transition: 0.2s ease-in;
+  z-index: 50;
+}
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0px;
+  padding: 0 20px 0 20px;
+  width: 260px;
+  height: 60px;
+}
+.navbar-collapse {
+  margin-left: 260px;
+  min-height: inherit;
+  padding: 0px 10px 0 0;
+  background: rgba(255, 255, 255);
+}
+.topbar .top-navbar {
+  padding: 0px;
+  min-height: 60px;
+}
+.navbar-header {
+  width: 260px;
+  position: fixed;
+  transition: 0.2s ease-in;
+  background: rgba(255, 255, 255);
+  line-height: 60px;
+  box-shadow: 0 -7px 9px 0 rgb(169 184 200 / 15%);
+  -webkit-box-shadow: 0 -7px 9px 0 rgb(169 184 200 / 15%);
+  -moz-box-shadow: 0 -7px 9px 0 rgba(169, 184, 200, 0.15);
+  z-index: 10;
+}
+.nav-link {
+  color: rgba(0, 0, 0);
+}
+.nav-link.active {
+  color: rgba(98, 89, 202) !important;
+}
+.nav-link:hover,
+.nav-link:focus {
+  color: rgba(98, 89, 202);
+}
+
+/* Sidebar */
+.left-sidebar {
+  position: fixed;
+  width: 260px;
+  height: 100%;
+  top: 0px;
+  z-index: 10;
+  padding-top: 100px;
+  background: transparent;
+  transition: 0.2s ease-in;
+  box-shadow: 0 3px 9px 0 rgb(169 184 200 / 15%);
+  -webkit-box-shadow: 0 3px 9px 0 rgb(169 184 200 / 15%);
+  -moz-box-shadow: 0 3px 9px 0 rgba(169, 184, 200, 0.15);
+}
+.sidebar-nav {
+  padding-top: 30px;
+}
+.sidebar-nav ul {
+  margin: 0px;
+  padding: 0px;
+}
+
+/* card */
+.card-subtitle {
+  color: rgba(78, 71, 162);
+  margin-bottom: 0.5rem;
+}
+.btn-close {
+  &:hover {
+    background-color: transparent;
+  }
+}
+
+.circle-bullet::before {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 30px;
+  background: rgb(78, 71, 162);
+  position: relative;
+  top: -2px;
+  margin-right: 8px;
+}
+
+/* Carousel */
+.carousel .carousel-item img {
+  height: 222px;
+  margin: 0 auto;
+}
+
+/* input */
+.required:after {
+  content:"*";
+  color:red;
+  display: inline-block;
+  position: relative;
+  top: 5px;
+}
+
+/* Footer */
+.footer {
+  color: rgba(51, 51, 51);
+  background: rgba(255, 255, 255);
+  padding: 15px 20px;
+  font-size: 0.813rem;
+  border-top: 1px solid rgba(222, 226, 230);
+}
+
+@import "gisView";
